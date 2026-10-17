@@ -16,7 +16,7 @@ function mostrarPresupuesto() {
     return `Tu presupuesto actual es de ${presupuesto} €`;
 }
 
-function CrearGasto(descripcion, valor) {
+function CrearGasto(descripcion, valor, fecha) {
     this.descripcion = descripcion;
 
     if (typeof valor === "number" && valor >= 0) {
@@ -25,8 +25,47 @@ function CrearGasto(descripcion, valor) {
         this.valor = 0;
     }
 
+    if (typeof fecha === "string" && !isNaN(Date.parse(fecha))) {
+        this.fecha = Date.parse(fecha);
+    } else {
+        this.fecha = Date.now();
+    }
+
+    this.etiquetas = [];
+
+    this.anyadirEtiquetas = function () {
+        for (let i = 0; i < arguments.length; i++) {
+            if (this.etiquetas.indexOf(arguments[i]) === -1) {
+                this.etiquetas.push(arguments[i]);
+            }
+        }
+    };
+
+    this.borrarEtiquetas = function () {
+        for (let i = 0; i < arguments.length; i++) {
+            let posicion = this.etiquetas.indexOf(arguments[i]);
+            if (posicion !== -1) {
+                this.etiquetas.splice(posicion, 1);
+            }
+        }
+    };
+
+    for (let i = 3; i < arguments.length; i++) {
+        this.anyadirEtiquetas(arguments[i]);
+    }
+
     this.mostrarGasto = function () {
         return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
+    };
+
+    this.mostrarGastoCompleto = function () {
+        let texto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\n`;
+        texto += `Fecha: ${new Date(this.fecha).toLocaleString()}\n`;
+        texto += `Etiquetas:\n`;
+        for (let i = 0; i < this.etiquetas.length; i++) {
+            texto += `- ${this.etiquetas[i]}\n`;
+        }
+        return texto;
     };
 
     this.actualizarDescripcion = function (nuevaDescripcion) {
@@ -38,8 +77,13 @@ function CrearGasto(descripcion, valor) {
             this.valor = nuevoValor;
         }
     };
-}
 
+    this.actualizarFecha = function (nuevaFecha) {
+        if (typeof nuevaFecha === "string" && !isNaN(Date.parse(nuevaFecha))) {
+            this.fecha = Date.parse(nuevaFecha);
+        }
+    };
+}
 function listarGastos() {
     return gastos;
 }
