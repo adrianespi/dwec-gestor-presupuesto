@@ -83,6 +83,22 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
             this.fecha = Date.parse(nuevaFecha);
         }
     };
+
+    this.obtenerPeriodoAgrupacion = function (periodo) { //Tambien se podria hacer con toISOString https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString https://www.w3schools.com/jsref/jsref_toisostring.asp
+        let fechaGasto = new Date(this.fecha);
+
+        let anyo = fechaGasto.getUTCFullYear();
+        let mes = String(fechaGasto.getUTCMonth() + 1).padStart(2, "0");
+        let dia = String(fechaGasto.getUTCDate()).padStart(2, "0");
+
+        if (periodo === "dia") {
+            return `${anyo}-${mes}-${dia}`;
+        } else if (periodo === "anyo") {
+            return `${anyo}`;
+        } else {
+            return `${anyo}-${mes}`;
+        }
+    };
 }
 
 function listarGastos() {
