@@ -132,8 +132,50 @@ function calcularBalance() {
     return presupuesto - calcularTotalGastos();
 }
 
-function filtrarGastos() {
-    
+function filtrarGastos(filtros = {}) {
+    return gastos.filter(function (gasto) {
+
+        if (filtros.fechaDesde !== undefined && gasto.fecha < Date.parse(filtros.fechaDesde)) {
+            return false;
+        }
+
+        if (filtros.fechaHasta !== undefined && gasto.fecha > Date.parse(filtros.fechaHasta)) {
+            return false;
+        }
+
+        if (filtros.valorMinimo !== undefined && gasto.valor < filtros.valorMinimo) {
+            return false;
+        }
+
+        if (filtros.valorMaximo !== undefined && gasto.valor > filtros.valorMaximo) {
+            return false;
+        }
+
+        if (filtros.descripcionContiene !== undefined && !gasto.descripcion.toLowerCase().includes(filtros.descripcionContiene.toLowerCase())) {
+            return false;
+        }
+
+        if (filtros.etiquetasTiene !== undefined) {
+            let algunaEtiquetaCoincide = false;
+
+            for (let i = 0; i < gasto.etiquetas.length; i++) {
+                for (let j = 0; j < filtros.etiquetasTiene.length; j++) {
+                    if (gasto.etiquetas[i].toLowerCase() === filtros.etiquetasTiene[j].toLowerCase()) {
+                        algunaEtiquetaCoincide = true;
+                        break;
+                    }
+                }
+                if (algunaEtiquetaCoincide) {
+                    break;
+                }
+            }
+
+            if (!algunaEtiquetaCoincide) {
+                return false;
+            }
+        }
+        return true;
+    });
 }
 
 function agruparGastos() {
