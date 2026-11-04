@@ -1,5 +1,3 @@
-import * as gestionPresupuesto from "./gestionPresupuesto.js";
-
 let presupuesto = 0;
 let gastos  = [];
 let idGasto = 0;

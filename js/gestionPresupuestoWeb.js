@@ -1,3 +1,5 @@
+import * as gestionPresupuesto from "./gestionPresupuesto.js";
+
 function mostrarDatoEnId(idElemento, valor) {
     const elemento = document.getElementById(idElemento);
     elemento.textContent = valor;
