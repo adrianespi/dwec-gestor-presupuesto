@@ -60,4 +60,5 @@ las prácticas:
 -   [Fundamentos de JS II](./enunciados/fundamentos_js_II.md)
 -   [Fundamentos de JS III](./enunciados/fundamentos_js_III.md)
 -   [Interacción con HTML](./enunciados/interaccionHTML.md)
+-   [Eventos en JavaScript](./enunciados/eventos.md)
 
