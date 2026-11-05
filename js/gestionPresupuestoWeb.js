@@ -126,6 +126,14 @@ EditarHandle.prototype.handleEvent = function () {
     repintar();
 };
 
+function BorrarHandle() {}
+
+BorrarHandle.prototype.handleEvent = function () {
+    gestionPresupuesto.borrarGasto(this.gasto.id);
+    
+    repintar();
+};
+
 export   {
     mostrarDatoEnId,
     mostrarGastoWeb,
