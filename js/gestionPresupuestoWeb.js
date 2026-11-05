@@ -72,8 +72,24 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
     contenedor.appendChild(divAgrupacion);
 }
 
+function repintar() {
+    mostrarDatoEnId("presupuesto", gestionPresupuesto.mostrarPresupuesto());
+
+    mostrarDatoEnId("gastos-totales", gestionPresupuesto.calcularTotalGastos());
+
+    mostrarDatoEnId("balance-total", gestionPresupuesto.calcularBalance());
+
+    const contenedorListado = document.getElementById("listado-gastos-completo");
+    contenedorListado.innerHTML = "";
+
+    gestionPresupuesto.listarGastos().forEach((gasto) => {
+        mostrarGastoWeb("listado-gastos-completo", gasto);
+    });
+}
+
 export   {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    repintar
 }
