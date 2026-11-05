@@ -130,6 +130,14 @@ function BorrarHandle() {}
 
 BorrarHandle.prototype.handleEvent = function () {
     gestionPresupuesto.borrarGasto(this.gasto.id);
+
+    repintar();
+};
+
+function BorrarEtiquetasHandle() {}
+
+BorrarEtiquetasHandle.prototype.handleEvent = function () {
+    this.gasto.borrarEtiquetas(this.etiqueta);
     
     repintar();
 };
