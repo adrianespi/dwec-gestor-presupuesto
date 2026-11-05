@@ -87,9 +87,18 @@ function repintar() {
     });
 }
 
+function actualizarPresupuestoWeb() {
+    const nuevoPresupuesto = Number(prompt("Introduce el nuevo presupuesto:"));
+
+    gestionPresupuesto.actualizarPresupuesto(nuevoPresupuesto);
+
+    repintar();
+}
+
 export   {
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
-    repintar
+    repintar,
+    actualizarPresupuestoWeb
 }
