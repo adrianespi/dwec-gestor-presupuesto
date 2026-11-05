@@ -21,7 +21,7 @@ function mostrarGastoWeb(idElemento, gasto) {
 
     const divValor = document.createElement("div");
     divValor.className = "gasto-valor";
-    divValor.textContent = `${gasto.valor} €`;
+    divValor.textContent = gasto.valor; //divValor.textContent = `${gasto.valor} €`;
 
     const divEtiquetas = document.createElement("div");
     divEtiquetas.className = "gasto-etiquetas";
@@ -109,6 +109,22 @@ function nuevoGastoWeb() {
 
     repintar();
 }
+
+function EditarHandle() {}
+
+EditarHandle.prototype.handleEvent = function () {
+    const descripcion = prompt("Introduce la descripción del gasto:", this.gasto.descripcion);
+    const valor = Number(prompt("Introduce el valor del gasto:", this.gasto.valor));
+    const fecha = prompt("Introduce la fecha del gasto (yyyy-mm-dd):", new Date(this.gasto.fecha).toISOString().slice(0, 10));
+    const etiquetas = prompt("Introduce las etiquetas separadas por comas:", this.gasto.etiquetas.join(","));
+
+    this.gasto.actualizarDescripcion(descripcion);
+    this.gasto.actualizarValor(valor);
+    this.gasto.actualizarFecha(fecha);
+    this.gasto.anyadirEtiquetas(...etiquetas.split(","));
+
+    repintar();
+};
 
 export   {
     mostrarDatoEnId,
