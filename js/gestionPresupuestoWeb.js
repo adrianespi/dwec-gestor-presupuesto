@@ -35,11 +35,29 @@ function mostrarGastoWeb(idElemento, gasto) {
         borrarEtiquetaHandle.gasto = gasto;
         borrarEtiquetaHandle.etiqueta = etiqueta;
         span.addEventListener("click", borrarEtiquetaHandle);
-        
+
         divEtiquetas.appendChild(span);
     }
 
-    divGasto.append(divDescripcion, divFecha, divValor, divEtiquetas);
+    const botonEditar = document.createElement("button");
+    botonEditar.type = "button";
+    botonEditar.className = "gasto-editar";
+    botonEditar.textContent = "Editar";
+
+    const editarHandle = new EditarHandle();
+    editarHandle.gasto = gasto;
+    botonEditar.addEventListener("click", editarHandle);
+
+    const botonBorrar = document.createElement("button");
+    botonBorrar.type = "button";
+    botonBorrar.className = "gasto-borrar";
+    botonBorrar.textContent = "Borrar";
+
+    const borrarHandle = new BorrarHandle();
+    borrarHandle.gasto = gasto;
+    botonBorrar.addEventListener("click", borrarHandle);
+
+    divGasto.append(divDescripcion, divFecha, divValor, divEtiquetas, botonEditar, botonBorrar);
     contenedor.appendChild(divGasto);
 }
 
@@ -147,6 +165,9 @@ BorrarEtiquetasHandle.prototype.handleEvent = function () {
 
     repintar();
 };
+
+document.getElementById("actualizarpresupuesto").addEventListener("click", actualizarPresupuestoWeb);
+document.getElementById("anyadirgasto").addEventListener("click", nuevoGastoWeb);
 
 export   {
     mostrarDatoEnId,
