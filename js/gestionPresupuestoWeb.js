@@ -134,6 +134,49 @@ function nuevoGastoWeb() {
     repintar();
 }
 
+function CancelarHandle() {}
+
+CancelarHandle.prototype.handleEvent = function () {
+    this.formulario.remove();
+    this.boton.removeAttribute("disabled");
+};
+
+function nuevoGastoWebFormulario(event) {
+    const plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+    const formulario = plantillaFormulario.querySelector("form");
+    const botonAnyadir = event.currentTarget;
+
+    formulario.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const campos = event.currentTarget.elements;
+
+        const gasto = new gestionPresupuesto.CrearGasto(
+            campos.descripcion.value,
+            Number(campos.valor.value),
+            campos.fecha.value,
+            ...campos.etiquetas.value.split(",")
+        );
+
+        gestionPresupuesto.anyadirGasto(gasto);
+
+        repintar();
+
+        document.getElementById("anyadirgasto-formulario").removeAttribute("disabled");
+    });
+
+    const botonCancelar = formulario.querySelector("button.cancelar");
+
+    const cancelarHandle = new CancelarHandle();
+    cancelarHandle.formulario = formulario;
+    cancelarHandle.boton = botonAnyadir;
+    botonCancelar.addEventListener("click", cancelarHandle);
+
+    botonAnyadir.setAttribute("disabled", true);
+
+    document.getElementById("controlesprincipales").appendChild(plantillaFormulario);
+}
+
 function EditarHandle() {}
 
 EditarHandle.prototype.handleEvent = function () {
@@ -168,6 +211,7 @@ BorrarEtiquetasHandle.prototype.handleEvent = function () {
 
 document.getElementById("actualizarpresupuesto").addEventListener("click", actualizarPresupuestoWeb);
 document.getElementById("anyadirgasto").addEventListener("click", nuevoGastoWeb);
+document.getElementById("anyadirgasto-formulario").addEventListener("click", nuevoGastoWebFormulario);
 
 export   {
     mostrarDatoEnId,
