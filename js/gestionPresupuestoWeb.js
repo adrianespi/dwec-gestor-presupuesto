@@ -186,6 +186,49 @@ function nuevoGastoWebFormulario(event) {
     document.getElementById("controlesprincipales").appendChild(plantillaFormulario);
 }
 
+function EditarGastoFormularioHandle() {}
+
+EditarGastoFormularioHandle.prototype.handleEvent = function (event) {
+    event.preventDefault();
+
+    const campos = event.currentTarget.elements;
+
+    this.gasto.actualizarDescripcion(campos.descripcion.value);
+    this.gasto.actualizarValor(Number(campos.valor.value));
+    this.gasto.actualizarFecha(campos.fecha.value);
+    this.gasto.anyadirEtiquetas(...campos.etiquetas.value.split(","));
+
+    repintar();
+};
+
+function EditarHandleFormulario() {}
+
+EditarHandleFormulario.prototype.handleEvent = function (event) {
+    const plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+    const formulario = plantillaFormulario.querySelector("form");
+    const botonEditarFormulario = event.currentTarget;
+
+    formulario.querySelector("#descripcion").value = this.gasto.descripcion;
+    formulario.querySelector("#valor").value = this.gasto.valor;
+    formulario.querySelector("#fecha").value = new Date(this.gasto.fecha).toISOString().slice(0, 10);
+    formulario.querySelector("#etiquetas").value = this.gasto.etiquetas.join(",");
+
+    const submitHandle = new EditarGastoFormularioHandle();
+    submitHandle.gasto = this.gasto;
+    formulario.addEventListener("submit", submitHandle);
+
+    const botonCancelar = formulario.querySelector("button.cancelar");
+
+    const cancelarHandle = new CancelarHandle();
+    cancelarHandle.formulario = formulario;
+    cancelarHandle.boton = botonEditarFormulario;
+    botonCancelar.addEventListener("click", cancelarHandle);
+
+    botonEditarFormulario.setAttribute("disabled", true);
+
+    botonEditarFormulario.parentElement.appendChild(plantillaFormulario);
+}
+
 function EditarHandle() {}
 
 EditarHandle.prototype.handleEvent = function () {
