@@ -57,7 +57,16 @@ function mostrarGastoWeb(idElemento, gasto) {
     borrarHandle.gasto = gasto;
     botonBorrar.addEventListener("click", borrarHandle);
 
-    divGasto.append(divDescripcion, divFecha, divValor, divEtiquetas, botonEditar, botonBorrar);
+    const botonEditarFormulario = document.createElement("button");
+    botonEditarFormulario.type = "button";
+    botonEditarFormulario.className = "gasto-editar-formulario";
+    botonEditarFormulario.textContent = "Editar (formulario)";
+
+    const editarFormularioHandle = new EditarHandleFormulario();
+    editarFormularioHandle.gasto = gasto;
+    botonEditarFormulario.addEventListener("click", editarFormularioHandle);
+
+    divGasto.append(divDescripcion, divFecha, divValor, divEtiquetas, botonEditar, botonBorrar, botonEditarFormulario);
     contenedor.appendChild(divGasto);
 }
 
